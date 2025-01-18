@@ -30,8 +30,9 @@ function GoogleLogin() {
     flow : 'auth-code' 
   });
   return (
-    <div>
-      <button onClick={googleLogin}>Login</button>
+    <div className='userInfo'>
+      <h1>Welcome , Get Started Here</h1>
+      <button className='btton' onClick={googleLogin}>Login</button>
     </div>
   );
 }

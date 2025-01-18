@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route,Navigate, NavigationType } from 'react-router-dom';
 import GoogleLogin from './GoogleLogin'; 
-import Dashboard from './Dashboard';
+import Dashboard from './dashboard/Dashboard';
 import PageNotFound from './PageNotFound';
 import { useState } from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';

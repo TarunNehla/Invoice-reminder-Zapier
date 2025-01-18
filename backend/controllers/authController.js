@@ -1,7 +1,9 @@
 const UserModel = require("../models/userModel");
+const InvoiceModel = require("../models/invoiceModel");
 const { oauth2client } = require("../utils/googleConfig");
 const axios = require('axios')
 const jwt = require('jsonwebtoken');
+const generateMockInvoices = require('../mockInvoices/mockInvoices');
 require('dotenv').config();
 
 const GoogleLogin = async (req,res) => {
@@ -17,7 +19,10 @@ const GoogleLogin = async (req,res) => {
         const {email, name, picture} = userRes.data;
         // console.log('picture url', picture);
         let user = await UserModel.findOne({email});
+        let isNewUser = false;
+
         if(!user){
+            isNewUser = true;
             user = await UserModel.create({
                 name,email,image: picture
             })
@@ -29,6 +34,12 @@ const GoogleLogin = async (req,res) => {
                 expiresIn : process.env.JWT_TIMEOUT
             }
         );
+
+        if (isNewUser) {
+            const mockInvoices = generateMockInvoices(_id);
+            await InvoiceModel.insertMany(mockInvoices);
+        }
+
         return res.status(200).json({
             message : 'success',
             token,
@@ -41,6 +52,9 @@ const GoogleLogin = async (req,res) => {
         })
     }
 }
+
+
+
 
 module.exports = {
     GoogleLogin
